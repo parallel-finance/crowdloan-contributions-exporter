@@ -1,5 +1,5 @@
-import { GraphqlConfig } from "../utils/config";
-import { DotContributionFetcher } from "./auction";
+import { GraphqlConfig } from '../utils/config'
+import { DotContributionFetcher } from './auction'
 
 export interface ApiServiceConfig {
     graphqlTrigger: GraphqlConfig;

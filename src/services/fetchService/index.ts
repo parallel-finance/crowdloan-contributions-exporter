@@ -5,31 +5,31 @@ import { FetchOption, ServiceConfig, SubqlFectchMethod } from '../common'
 export abstract class FetchService {
   constructor (protected cfg: ServiceConfig) {}
 
-  public async fetch(op: FetchOption): Promise<any[]> {
+  public async fetch (op: FetchOption): Promise<any[]> {
     const low = this.cfg.startHeight
     const high = await this.lastGraphQLProcessedHeight()
-    const totalCounts= await this.fetchFromSubql(low, high, op.fetchAllRecordsCount)
+    const totalCounts = await this.fetchFromSubql(low, high, op.fetchAllRecordsCount)
     logger.info(`Total records count: ${totalCounts}, [${low}, ${high}]`)
 
     let start: number = low
     let end: number = low
     let epoch: number = 0
-    let fetchedRecords: any[] = []
+    const fetchedRecords: any[] = []
     while (true) {
-        start = end + 1
-        end = await this.calculateNextHeight(start, op.fetchAllRecordsCount)
-        end = end >= high ? high : end
-        const availableRecords = await Promise.all(
-            await this.fetchFromSubql(start, end, op.fetchAllRecords)
-        )
-        availableRecords.forEach(record => fetchedRecords.push(record))
-        logger.debug(`[Epoch: ${++epoch}(${this.cfg.name})], scan [${start}, ${end}], counts: ${availableRecords.length}`)
-        if (end >= high) break
+      start = end + 1
+      end = await this.calculateNextHeight(start, op.fetchAllRecordsCount)
+      end = end >= high ? high : end
+      const availableRecords = await Promise.all(
+        await this.fetchFromSubql(start, end, op.fetchAllRecords)
+      )
+      availableRecords.forEach(record => fetchedRecords.push(record))
+      logger.debug(`[Epoch: ${++epoch}(${this.cfg.name})], scan [${start}, ${end}], counts: ${availableRecords.length}`)
+      if (end >= high) break
     }
-    logger.info("Fetched records count: " + fetchedRecords.length)
-    while(true) if (fetchedRecords.length === totalCounts) return fetchedRecords
+    logger.info('Fetched records count: ' + fetchedRecords.length)
+    while (true) if (fetchedRecords.length === totalCounts) return fetchedRecords
   }
-  
+
   private fetchFromSubql = async (low: number, high: number, method: SubqlFectchMethod): Promise<any> =>
     method(low - 1, high + 1, this.cfg.graphql)
 

@@ -1,12 +1,5 @@
-import { getStringEnv, getNumEnv, getBooleanEnv } from './getEnv'
+import { getBooleanEnv } from './getEnv'
 
-interface PolkadotAuctionDBConfig {
-  host: string;
-  port: number;
-  name: string;
-  user: string;
-  password: string;
-}
 export interface GraphqlConfig {
   auctionSubquery: boolean;
   crowdloanMoonbeam: boolean;

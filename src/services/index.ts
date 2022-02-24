@@ -22,7 +22,7 @@ export class Service {
     )
 
     await Promise.all([
-        dotContributionFetcher.run()
+      dotContributionFetcher.run()
     ])
   }
 }
