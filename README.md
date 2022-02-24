@@ -4,10 +4,6 @@ A script to export data for subquery
 
 ## Usage
 
-1. Specify environment variables in `.env`
+`yarn && yarn start`
 
-    ```env
-    GRAPHQL_ENDPOINT="https://api.subquery.network/sq/parallel-finance/auction-subquery"
-    ```
-
-2. `yarn && yarn start`
+Then you can get the latest data file of `dot_contributions.csv` in the current directory.
