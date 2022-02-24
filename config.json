@@ -1,0 +1,10 @@
+{
+    "auction-subquery": {
+        "name": "auction-subquery",
+        "startHeight": 7559000,
+        "recordsLimit": 5000,
+        "adjustHeight": 25000,
+        "listeningInterval": 4000,
+        "graphql": "https://api.subquery.network/sq/parallel-finance/auction-subquery"
+    }
+}
