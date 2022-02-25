@@ -1,4 +1,5 @@
 import { gql, request } from 'graphql-request'
+import { sleep } from '../../utils/common'
 import { logger } from '../../utils/logger'
 import { FetchOption, ServiceConfig, SubqlFectchMethod } from '../common'
 
@@ -30,8 +31,32 @@ export abstract class FetchService {
     while (true) if (fetchedRecords.length === totalCounts) return fetchedRecords
   }
 
-  private fetchFromSubql = async (low: number, high: number, method: SubqlFectchMethod): Promise<any> =>
-    method(low - 1, high + 1, this.cfg.graphql)
+  private fetchFromSubql = async (
+    low: number,
+    high: number,
+    method: SubqlFectchMethod
+  ): Promise<any> => {
+    const fetchedResult = this.retry(method(low - 1, high + 1, this.cfg.graphql))
+    if (!fetchedResult) {
+      logger.error(`Failed to fetch records from subql: [${low},${high}]`)
+      return null
+    } else return fetchedResult
+  }
+
+  private retry = async (method: any, times?: number, sleepTime?: number): Promise<any> => {
+    let retryTimes = times || 10
+    while (true) {
+      if (!retryTimes) throw new Error('Failed to request, pls try again]')
+      try {
+        const fetchedResult = await method
+        return fetchedResult
+      } catch (err) {
+        logger.error(`your network seems to be unstable, retry again(${retryTimes}...`)
+        retryTimes--
+        sleep(sleepTime || 3000)
+      }
+    }
+  }
 
   async calculateNextHeight (originHeight: number, solver: SubqlFectchMethod): Promise<number> {
     let ratio = 1
@@ -59,7 +84,7 @@ export abstract class FetchService {
   async lastGraphQLProcessedHeight (): Promise<number> {
     const {
       _metadata: { lastProcessedHeight }
-    } = await request(
+    } = await this.retry(request(
       this.cfg.graphql,
       gql`
         query {
@@ -68,7 +93,8 @@ export abstract class FetchService {
           }
         }
       `
-    )
+    ))
+
     return lastProcessedHeight
   }
 }
