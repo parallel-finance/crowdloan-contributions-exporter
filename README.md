@@ -1,6 +1,6 @@
-# subql-export-script
+# crowdloan contributions exporter
 
-A script to export data for subquery
+This is a script to export eh contributions data for crowdloans that contributed through parallel.
 
 ## Usage
 
