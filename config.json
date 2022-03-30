@@ -9,9 +9,9 @@
     },
     "crowdloan-via-heiko": {
         "name": "crowdloan-via-heiko",
-        "startHeight": 900000,
+        "startHeight": 920000,
         "recordsLimit": 100,
-        "adjustHeight": 10000,
+        "adjustHeight": 30000,
         "listeningInterval": 4000,
         "graphql": "https://api.subquery.network/sq/parallel-finance/crowdloan-via-heiko"
     }
