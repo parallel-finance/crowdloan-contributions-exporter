@@ -17,3 +17,7 @@ Then you can get the latest data file of `dot_contributions.csv` in root directo
 `yarn && yarn kusama-v2`
 
 Then you can get the latest data file of `ksm_via_heiko_contributions.csv` in root directory.
+
+#### How to get it
+
+![kusama-v2](https://cdn.jsdelivr.net/gh/rjman-ljm/resources@master/assets/1648643525681kusama-v2-exporter.drawio.png)
