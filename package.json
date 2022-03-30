@@ -8,6 +8,8 @@
     "license": "MIT",
     "scripts": {
         "start": "ts-node src/index.ts",
+        "polkadot-v1": "TRIGGER_AUCTION_SUBQUERY=true yarn start",
+        "kusama-v2": "TRIGGER_CROWDLOAN_VIA_HEIKO=true yarn start",
         "build": "tsc",
         "clean": "tsc --build --clean",
         "lint": "eslint . --ext .ts",

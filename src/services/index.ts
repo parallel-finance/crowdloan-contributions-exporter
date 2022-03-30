@@ -1,7 +1,8 @@
 import { GraphqlConfig } from '../utils/config'
 import { ApiServiceConfig, FetchServiceType } from './common'
 import * as config from '../../config.json'
-import { DotContributionFetcher } from './auction'
+import { DotContributionFetcher } from './polkadot-auction-v1'
+import { KsmViaHeikoContributionFetcher } from './kusama-auction-v2'
 
 export class Service {
   static graphqlTrigger: GraphqlConfig;
@@ -21,8 +22,16 @@ export class Service {
       )
     )
 
+    const ksmViaHeikoContributionFetcher: FetchServiceType = (
+      new KsmViaHeikoContributionFetcher(
+        config['crowdloan-via-heiko'],
+        Service.graphqlTrigger.crowdloanViaHeiko || false
+      )
+    )
+
     await Promise.all([
-      dotContributionFetcher.run()
+      dotContributionFetcher.run(),
+      ksmViaHeikoContributionFetcher.run()
     ])
   }
 }

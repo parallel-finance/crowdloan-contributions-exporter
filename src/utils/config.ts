@@ -6,6 +6,7 @@ export interface GraphqlConfig {
   moonbeamDistribution: boolean;
   ledgerRewardAddress: boolean;
   bridge: boolean;
+  crowdloanViaHeiko: boolean;
 }
 
 interface Config {
@@ -23,7 +24,9 @@ const getConfig = (): Config => ({
     // Table: ledger_reward_address
     ledgerRewardAddress: getBooleanEnv('TRIGGER_LEDGER_REWARD_ADDRESS'),
     // Table: bridge_ins, bridge_outs, bridge_votes,
-    bridge: getBooleanEnv('TRIGGER_BRIDGE')
+    bridge: getBooleanEnv('TRIGGER_BRIDGE'),
+    // Table: crowdloan_via_heiko
+    crowdloanViaHeiko: getBooleanEnv('TRIGGER_CROWDLOAN_VIA_HEIKO')
   }
 })
 
