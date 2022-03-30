@@ -1,9 +1,19 @@
 # crowdloan contributions exporter
 
-This is a script to export eh contributions data for crowdloans that contributed through parallel.
+This is a script to export contributions data for crowdloans that contributed through parallel.
 
 ## Usage
 
-`yarn && yarn start`
+Current Crowdloan via prallel supports Polkadot and Kusama platforms, please confirm which platform you want to export to.
 
-Then you can get the latest data file of `dot_contributions.csv` in the current directory.
+### Polkadot
+
+`yarn && yarn polkadot-v1`
+
+Then you can get the latest data file of `dot_contributions.csv` in root directory.
+
+### Kusama
+
+`yarn && yarn kusama-v2`
+
+Then you can get the latest data file of `ksm_via_heiko_contributions.csv` in root directory.
