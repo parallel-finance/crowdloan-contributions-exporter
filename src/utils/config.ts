@@ -9,8 +9,14 @@ export interface GraphqlConfig {
   crowdloanViaHeiko: boolean;
 }
 
-interface Config {
+interface Connection {
+  parallel: string
+  relay: string
+}
+
+export interface Config {
   graphqlTrigger: GraphqlConfig;
+  endpoints?: Connection
 }
 
 const getConfig = (): Config => ({
@@ -28,6 +34,12 @@ const getConfig = (): Config => ({
     // Table: crowdloan_via_heiko
     crowdloanViaHeiko: getBooleanEnv('TRIGGER_CROWDLOAN_VIA_HEIKO')
   }
+  // endpoints: {
+  //   // Table: bridge_ins, bridge_outs, bridge_votes,
+  //   parallel: getStringEnv('PARALLEL_ENDPOINT'),
+  //   // Table: crowdloan_via_heiko
+  //   relay: getStringEnv('RELAY_ENDPOINT')
+  // }
 })
 
 export default getConfig
