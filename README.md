@@ -20,4 +20,4 @@ Then you can get the latest data file of `ksm_via_heiko_contributions.csv` in ro
 
 #### How to get it
 
-![kusama-v2](https://cdn.jsdelivr.net/gh/rjman-ljm/resources@master/assets/1648643525681kusama-v2-exporter.drawio.png)
+![kusama-v2](https://cdn.jsdelivr.net/gh/rjman-ljm/resources@master/assets/1648643844371kusama-v2-exporter.jpg)
