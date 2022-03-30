@@ -5,3 +5,4 @@ logs/
 data/
 yarn-error.log
 *.csv
+.DS_Store

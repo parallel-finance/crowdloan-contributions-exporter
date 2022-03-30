@@ -13,6 +13,9 @@ export interface ServiceConfig {
     adjustHeight: number;
     listeningInterval: number;
     graphql: string;
+    paraEndpoint?: string;
+    relayEndpoint?: string;
+    searchRange?: number[];
 }
 
 export interface SubqlFectchMethod {

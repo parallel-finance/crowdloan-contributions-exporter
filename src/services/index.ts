@@ -11,6 +11,7 @@ export class Service {
     { graphqlTrigger }: ApiServiceConfig
   ) {
     Service.graphqlTrigger = graphqlTrigger
+
     return new Service()
   }
 
