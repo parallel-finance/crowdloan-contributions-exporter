@@ -1,5 +1,6 @@
 import { GraphqlConfig } from '../utils/config'
-import { DotContributionFetcher } from './auction'
+import { KsmViaHeikoContributionFetcher } from './kusama-auction-v2'
+import { DotContributionFetcher } from './polkadot-auction-v1'
 
 export interface ApiServiceConfig {
     graphqlTrigger: GraphqlConfig;
@@ -31,3 +32,4 @@ export type FetchOption = BasicFetchOperation
 export type WriteOption = BasicWriteOperation
 
 export type FetchServiceType = DotContributionFetcher
+    | KsmViaHeikoContributionFetcher
