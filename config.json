@@ -11,7 +11,7 @@
         "name": "crowdloan-via-heiko",
         "startHeight": 920000,
         "recordsLimit": 100,
-        "adjustHeight": 100000,
+        "adjustHeight": 20000,
         "listeningInterval": 4000,
         "graphql": "https://api.subquery.network/sq/parallel-finance/crowdloan-via-heiko",
         "paraEndpoint": "wss://heiko-rpc.parallel.fi",

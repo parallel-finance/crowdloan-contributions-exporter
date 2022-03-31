@@ -17,7 +17,7 @@ import { chunk } from 'lodash'
 
 export class KsmViaHeikoContributionFetcher extends FetchService {
   private trigger: boolean = false
-  private chunkSize: number = 10
+  private chunkSize: number = 5
   private mode: string = 'normal'
   constructor (config: ServiceConfig, trigger: boolean, mode: string) {
     super(config)
