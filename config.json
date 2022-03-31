@@ -16,6 +16,6 @@
         "graphql": "https://api.subquery.network/sq/parallel-finance/crowdloan-via-heiko",
         "paraEndpoint": "wss://heiko-rpc.parallel.fi",
         "relayEndpoint": "wss://kusama.api.onfinality.io/public-ws",
-        "searchRange": [10, 20]
+        "searchRange": [6, 20]
     }
 }

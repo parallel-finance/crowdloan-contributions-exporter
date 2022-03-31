@@ -17,9 +17,12 @@ import { chunk } from 'lodash'
 
 export class KsmViaHeikoContributionFetcher extends FetchService {
   private trigger: boolean = false
-  constructor (config: ServiceConfig, trigger: boolean) {
+  private chunkSize: number = 5
+  private mode: string = 'normal'
+  constructor (config: ServiceConfig, trigger: boolean, mode: string) {
     super(config)
     this.trigger = trigger
+    if (mode) this.mode = mode
   }
 
   private async initializeConnections (parallel: string, relay: string) {
@@ -41,22 +44,29 @@ export class KsmViaHeikoContributionFetcher extends FetchService {
       fetchAllRecords: fetchAllContributions
     }
 
-    const contributions: KsmViaHeikoContributionTask[] = await this.fetch(ksmViaHeikoContributionsOpreration)
+    let contributions: KsmViaHeikoContributionTask[] = await this.fetch(ksmViaHeikoContributionsOpreration)
     contributions.sort((a, b) => a.blockHeight - b.blockHeight)
     logger.debug('Waiting for data processing, about 1~3 minutes...')
 
-    const batches = chunk(contributions, contributions.length / 5)
+    if (this.mode === 'rich') {
+      contributions = await this.searchRelayEvent(contributions)
+    }
+
+    await json2csvAsync(contributions)
+      .then((csv) => fs.writeFileSync('./ksm_via_heiko_contributions.csv', csv))
+      .catch((err) => logger.error('ERROR: ' + err.message))
+    logger.info(`Feching ${this.cfg.name} finished.`)
+  }
+
+  private async searchRelayEvent (contributions: KsmViaHeikoContributionTask[]): Promise<KsmViaHeikoContributionTask[]> {
+    const batches = chunk(contributions, this.chunkSize)
     const records: KsmViaHeikoContributionTask[] = []
     for (const batch of batches) {
       const res = await this.applyUpdate(batch)
       res.forEach((item) => records.push(item))
       await sleep(5000)
     }
-
-    await json2csvAsync(records)
-      .then((csv) => fs.writeFileSync('./ksm_via_heiko_contributions.csv', csv))
-      .catch((err) => logger.error('ERROR: ' + err.message))
-    logger.info(`Feching ${this.cfg.name} finished.`)
+    return records
   }
 
   private async applyUpdate (originRecords: KsmViaHeikoContributionTask[]): Promise<KsmViaHeikoContributionTask[]> {
@@ -99,8 +109,7 @@ export class KsmViaHeikoContributionFetcher extends FetchService {
   private async findRelayContribute (relayBlock: BlockInfo, paraContribute: KsmViaHeikoContributionTask): Promise<KsmViaHeikoContributionInfo | null> {
     const { blockHeight } = relayBlock
 
-    const pre = this.cfg.searchRange![0]
-    const next = this.cfg.searchRange![1]
+    const [pre, next] = this.cfg.searchRange!
     let queryBlock: number = blockHeight - pre
     while (true) {
       queryBlock += 1

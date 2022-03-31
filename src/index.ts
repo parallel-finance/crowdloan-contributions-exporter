@@ -5,8 +5,8 @@ import getConfig from './utils/config'
 async function main () {
   await initialize()
 
-  const { graphqlTrigger } = getConfig()
-  const service = await Service.build({ graphqlTrigger })
+  const { graphqlTrigger, mode } = getConfig()
+  const service = await Service.build({ graphqlTrigger, mode })
   await service.run()
 
   await cleanup()

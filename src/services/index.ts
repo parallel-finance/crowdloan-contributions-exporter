@@ -6,10 +6,12 @@ import { KsmViaHeikoContributionFetcher } from './kusama-auction-v2'
 
 export class Service {
   static graphqlTrigger: GraphqlConfig;
+  static mode: string
 
   static async build (
-    { graphqlTrigger }: ApiServiceConfig
+    { graphqlTrigger, mode }: ApiServiceConfig
   ) {
+    Service.mode = mode
     Service.graphqlTrigger = graphqlTrigger
 
     return new Service()
@@ -26,7 +28,8 @@ export class Service {
     const ksmViaHeikoContributionFetcher: FetchServiceType = (
       new KsmViaHeikoContributionFetcher(
         config['crowdloan-via-heiko'],
-        Service.graphqlTrigger.crowdloanViaHeiko || false
+        Service.graphqlTrigger.crowdloanViaHeiko || false,
+        Service.mode
       )
     )
 

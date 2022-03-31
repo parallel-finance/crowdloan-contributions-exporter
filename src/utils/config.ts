@@ -1,4 +1,4 @@
-import { getBooleanEnv } from './getEnv'
+import { getBooleanEnv, getStringEnv } from './getEnv'
 
 export interface GraphqlConfig {
   auctionSubquery: boolean;
@@ -15,8 +15,9 @@ interface Connection {
 }
 
 export interface Config {
-  graphqlTrigger: GraphqlConfig;
+  graphqlTrigger: GraphqlConfig
   endpoints?: Connection
+  mode: string
 }
 
 const getConfig = (): Config => ({
@@ -33,13 +34,14 @@ const getConfig = (): Config => ({
     bridge: getBooleanEnv('TRIGGER_BRIDGE'),
     // Table: crowdloan_via_heiko
     crowdloanViaHeiko: getBooleanEnv('TRIGGER_CROWDLOAN_VIA_HEIKO')
-  }
+  },
   // endpoints: {
   //   // Table: bridge_ins, bridge_outs, bridge_votes,
   //   parallel: getStringEnv('PARALLEL_ENDPOINT'),
   //   // Table: crowdloan_via_heiko
   //   relay: getStringEnv('RELAY_ENDPOINT')
   // }
+  mode: getStringEnv('EXPORT_MODE')
 })
 
 export default getConfig

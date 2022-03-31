@@ -3,7 +3,8 @@ import { KsmViaHeikoContributionFetcher } from './kusama-auction-v2'
 import { DotContributionFetcher } from './polkadot-auction-v1'
 
 export interface ApiServiceConfig {
-    graphqlTrigger: GraphqlConfig;
+    graphqlTrigger: GraphqlConfig
+    mode: string
 }
 
 export interface ServiceConfig {
