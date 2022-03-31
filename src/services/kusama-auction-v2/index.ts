@@ -17,7 +17,7 @@ import { chunk } from 'lodash'
 
 export class KsmViaHeikoContributionFetcher extends FetchService {
   private trigger: boolean = false
-  private chunkSize: number = 5
+  private chunkSize: number = 10
   private mode: string = 'normal'
   constructor (config: ServiceConfig, trigger: boolean, mode: string) {
     super(config)
@@ -46,9 +46,8 @@ export class KsmViaHeikoContributionFetcher extends FetchService {
 
     let contributions: KsmViaHeikoContributionTask[] = await this.fetch(ksmViaHeikoContributionsOpreration)
     contributions.sort((a, b) => a.blockHeight - b.blockHeight)
-    logger.debug('Waiting for data processing, about 1~3 minutes...')
-
     if (this.mode === 'rich') {
+      logger.debug('Waiting for data processing, about 5~10 minutes...(or more time)')
       contributions = await this.searchRelayEvent(contributions)
     }
 
@@ -59,12 +58,12 @@ export class KsmViaHeikoContributionFetcher extends FetchService {
   }
 
   private async searchRelayEvent (contributions: KsmViaHeikoContributionTask[]): Promise<KsmViaHeikoContributionTask[]> {
-    const batches = chunk(contributions, this.chunkSize)
+    const batches = chunk(contributions, contributions.length / this.chunkSize)
     const records: KsmViaHeikoContributionTask[] = []
     for (const batch of batches) {
       const res = await this.applyUpdate(batch)
       res.forEach((item) => records.push(item))
-      await sleep(5000)
+      await sleep(1000)
     }
     return records
   }
@@ -85,7 +84,7 @@ export class KsmViaHeikoContributionFetcher extends FetchService {
         blockHeight: relayBlockHeight
       } as BlockInfo
 
-      logger.info(`Try find ${record.account} ${relayBlockInfo.blockHeight}`)
+      logger.info(`Try find ${record.account} relay#${relayBlockInfo.blockHeight}`)
       const find = await this.findRelayContribute(relayBlockInfo, record)
       if (find) logger.debug(`para#${record.blockHeight} -> relay#${relayBlockHeight}, ${JSON.stringify(find)}`)
       else logger.error(`para#${record.blockHeight} -> not found`)
