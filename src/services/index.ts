@@ -21,7 +21,8 @@ export class Service {
     const dotContributionFetcher: FetchServiceType = (
       new DotContributionFetcher(
         config['auction-subquery'],
-        Service.graphqlTrigger.auctionSubquery || false
+        Service.graphqlTrigger.auctionSubquery || false,
+        Service.mode
       )
     )
 

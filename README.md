@@ -8,7 +8,17 @@ Current Crowdloan via prallel supports Polkadot and Kusama platforms, please con
 
 ### Polkadot
 
-`yarn && yarn polkadot-v1`
+1. open `.env` file and change `PARA_ID` to the project id you want to export
+    - *option*. modify `START_HEIGHT`: The start block of a crowdloan project
+2. run `yarn && yarn polkadot-v1`
+
+Then you can get the latest data file of `dot_contributions.csv` in root directory.
+
+#### Optional(rich)
+
+Export the contributions data of all projects
+
+`yarn && yarn polkadot-v1-rich`
 
 Then you can get the latest data file of `dot_contributions.csv` in root directory.
 
@@ -25,6 +35,8 @@ Then you can get the latest data file of `ksm_via_heiko_contributions.csv` in ro
 This action will search for transactions that occur in relay chains(Kusama), since it is a search action, it will initiate a large number of api-requests, which may take a long time, so if you don't care when it happend in relaychain, you can ignore this action.
 
 > if some transactions are not found, we can expand the search range, i.e. adjust the searchRange interval in `config.json`(crowdloan-via-heiko.searchRange)
+
+Then you can get the latest data file of `ksm_via_heiko_contributions.csv` in root directory.
 
 ##### How to get the relaychain block height of crowdloan via heiko
 

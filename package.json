@@ -9,6 +9,7 @@
     "scripts": {
         "start": "ts-node src/index.ts",
         "polkadot-v1": "TRIGGER_AUCTION_SUBQUERY=true yarn start",
+        "polkadot-v1-rich": "EXPORT_MODE='rich' yarn polkadot-v1",
         "kusama-v2": "TRIGGER_CROWDLOAN_VIA_HEIKO=true yarn start",
         "kusama-v2-rich": "EXPORT_MODE='rich' yarn kusama-v2",
         "build": "tsc",

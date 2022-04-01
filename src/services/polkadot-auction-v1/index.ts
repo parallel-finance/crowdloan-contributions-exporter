@@ -11,9 +11,11 @@ import {
 
 export class DotContributionFetcher extends FetchService {
   private trigger: boolean = false
-  constructor (config: ServiceConfig, trigger: boolean) {
+  private mode: string = 'normal'
+  constructor (config: ServiceConfig, trigger: boolean, mode: string) {
     super(config)
     this.trigger = trigger
+    if (mode) this.mode = mode
   }
 
   public async run (): Promise<void> {
