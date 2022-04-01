@@ -1,4 +1,4 @@
-import { getBooleanEnv, getStringEnv } from './getEnv'
+import { getBooleanEnv, getNumEnv, getStringEnv } from './getEnv'
 
 export interface GraphqlConfig {
   auctionSubquery: boolean;
@@ -18,6 +18,8 @@ export interface Config {
   graphqlTrigger: GraphqlConfig
   endpoints?: Connection
   mode: string
+  paraId: number
+  startHeight: number
 }
 
 const getConfig = (): Config => ({
@@ -41,7 +43,9 @@ const getConfig = (): Config => ({
   //   // Table: crowdloan_via_heiko
   //   relay: getStringEnv('RELAY_ENDPOINT')
   // }
-  mode: getStringEnv('EXPORT_MODE')
+  mode: getStringEnv('EXPORT_MODE'),
+  paraId: getNumEnv('PARA_ID'),
+  startHeight: getNumEnv('START_HEIGHT')
 })
 
 export default getConfig

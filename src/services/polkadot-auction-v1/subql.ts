@@ -1,4 +1,6 @@
 import { gql, request } from 'graphql-request'
+import { Service } from '..'
+import getConfig from '../../utils/config'
 import { logger } from '../../utils/logger'
 import { ContributionTask } from './types'
 
@@ -16,7 +18,8 @@ export async function fetchAllContributionsCount (
           dotContributions(
             orderBy: BLOCK_HEIGHT_ASC
             filter: {
-              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}}
+              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
+              paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
             }
           ) {
             totalCount
@@ -41,7 +44,8 @@ export async function fetchAllContributions (
           dotContributions(
             orderBy: BLOCK_HEIGHT_ASC
             filter: {
-              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}}
+              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
+              paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
             }
           ) {
             totalCount
@@ -82,7 +86,8 @@ export async function fetchAllExecutedContributionsCount (
         dotContributions(
           orderBy: BLOCK_HEIGHT_ASC
           filter: {
-            executedBlockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}}
+            executedBlockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
+            paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
           }
         ) {
           totalCount
@@ -107,7 +112,8 @@ export async function fetchAllExecutedContributions (
         dotContributions(
           orderBy: BLOCK_HEIGHT_ASC
           filter: {
-            executedBlockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}}
+            executedBlockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
+            paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
           }
         ) {
           totalCount

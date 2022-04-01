@@ -1,5 +1,7 @@
 import { gql, request } from 'graphql-request'
+import { Service } from '..'
 import { sleep } from '../../utils/common'
+import getConfig from '../../utils/config'
 import { logger } from '../../utils/logger'
 import { FetchOption, ServiceConfig, SubqlFectchMethod } from '../common'
 
@@ -7,7 +9,8 @@ export abstract class FetchService {
   constructor (protected cfg: ServiceConfig) {}
 
   public async fetch (op: FetchOption): Promise<any[]> {
-    const low = this.cfg.startHeight
+    const envStartHeight = getConfig().startHeight
+    const low = envStartHeight || this.cfg.startHeight
     const high = await this.lastGraphQLProcessedHeight()
     const totalCounts = await this.fetchFromSubql(low, high, op.fetchAllRecordsCount)
     logger.info(`Total records count: ${totalCounts}, [${low}, ${high}]`)
@@ -53,7 +56,7 @@ export abstract class FetchService {
       } catch (err) {
         logger.error(`your network seems to be unstable, retry again(${retryTimes}...`)
         retryTimes--
-        sleep(sleepTime || 3000)
+        await sleep(sleepTime || 3000)
       }
     }
   }
@@ -61,7 +64,8 @@ export abstract class FetchService {
   async calculateNextHeight (originHeight: number, solver: SubqlFectchMethod): Promise<number> {
     let ratio = 1
     while (true) {
-      const newHeight = originHeight + Math.floor(this.cfg.adjustHeight * ratio)
+      const adjustHeight = Service.mode === 'rich' ? this.cfg.adjustHeight : this.cfg.adjustHeight * 4
+      const newHeight = originHeight + Math.floor(adjustHeight * ratio)
       const total = await this.fetchFromSubql(originHeight, newHeight, solver)
       if (newHeight === originHeight) {
         logger.info(`${this.cfg.name}: #${newHeight} has ${total} records, limited-records ${this.cfg.recordsLimit}, step: 0`)
