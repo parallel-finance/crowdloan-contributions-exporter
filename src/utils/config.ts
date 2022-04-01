@@ -18,7 +18,7 @@ export interface Config {
   graphqlTrigger: GraphqlConfig
   endpoints?: Connection
   mode: string
-  paraId: number
+  crowdloanId: string
   startHeight: number
 }
 
@@ -44,7 +44,7 @@ const getConfig = (): Config => ({
   //   relay: getStringEnv('RELAY_ENDPOINT')
   // }
   mode: getStringEnv('EXPORT_MODE'),
-  paraId: getNumEnv('PARA_ID'),
+  crowdloanId: getStringEnv('CROWDLOAN_ID'),
   startHeight: getNumEnv('START_HEIGHT')
 })
 

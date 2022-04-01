@@ -46,10 +46,10 @@ export class KsmViaHeikoContributionFetcher extends FetchService {
 
     let contributions: KsmViaHeikoContributionTask[] = await this.fetch(ksmViaHeikoContributionsOpreration)
     contributions.sort((a, b) => a.blockHeight - b.blockHeight)
-    if (this.mode === 'rich') {
-      logger.debug('Waiting for data processing, about 5~10 minutes...(or more time)')
-      contributions = await this.searchRelayEvent(contributions)
-    }
+    // if (this.mode === 'rich') {
+    logger.debug('Waiting for data processing, about 5~10 minutes...(or more time)')
+    contributions = await this.searchRelayEvent(contributions)
+    // }
 
     await json2csvAsync(contributions)
       .then((csv) => fs.writeFileSync('./ksm_via_heiko_contributions.csv', csv))

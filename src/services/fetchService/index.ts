@@ -12,6 +12,7 @@ export abstract class FetchService {
     const envStartHeight = getConfig().startHeight
     const low = envStartHeight || this.cfg.startHeight
     const high = await this.lastGraphQLProcessedHeight()
+    logger.debug('fetch from subql...')
     const totalCounts = await this.fetchFromSubql(low, high, op.fetchAllRecordsCount)
     logger.info(`Total records count: ${totalCounts}, [${low}, ${high}]`)
 

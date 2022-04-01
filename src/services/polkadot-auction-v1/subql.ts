@@ -19,7 +19,7 @@ export async function fetchAllContributionsCount (
             orderBy: BLOCK_HEIGHT_ASC
             filter: {
               blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
-              paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
+              paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${Number(getConfig().crowdloanId)}`} },
             }
           ) {
             totalCount
@@ -45,7 +45,7 @@ export async function fetchAllContributions (
             orderBy: BLOCK_HEIGHT_ASC
             filter: {
               blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
-              paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
+              paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${Number(getConfig().crowdloanId)}`} },
             }
           ) {
             totalCount
@@ -87,7 +87,7 @@ export async function fetchAllExecutedContributionsCount (
           orderBy: BLOCK_HEIGHT_ASC
           filter: {
             executedBlockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
-            paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
+            paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${Number(getConfig().crowdloanId)}`} },
           }
         ) {
           totalCount
@@ -113,7 +113,7 @@ export async function fetchAllExecutedContributions (
           orderBy: BLOCK_HEIGHT_ASC
           filter: {
             executedBlockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
-            paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().paraId}`} },
+            paraId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${Number(getConfig().crowdloanId)}`} },
           }
         ) {
           totalCount

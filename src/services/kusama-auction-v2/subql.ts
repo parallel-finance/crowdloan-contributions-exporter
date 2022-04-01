@@ -1,4 +1,6 @@
 import { gql, request } from 'graphql-request'
+import { Service } from '..'
+import getConfig from '../../utils/config'
 import { logger } from '../../utils/logger'
 import { KsmViaHeikoContributionTask } from './types'
 
@@ -16,7 +18,8 @@ export async function fetchAllContributionsCount (
           contributions (
             orderBy: BLOCK_HEIGHT_ASC
             filter: {
-              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}}
+              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
+              vaultId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().crowdloanId}`} },
             }
           ) {
           	totalCount
@@ -45,7 +48,8 @@ export async function fetchAllContributions (
           contributions (
             orderBy: BLOCK_HEIGHT_ASC
             filter: {
-              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}}
+              blockHeight: { greaterThan: ${startBlock}, lessThan: ${endBlock}},
+              vaultId: { ${Service.mode === 'rich' ? 'isNull: false' : `equalTo: ${getConfig().crowdloanId.toString()}`} },
             }
           ) {
             nodes {
